@@ -48,3 +48,15 @@ model = Sequential([
 
 model.compile(loss="binary_crossentropy", optimizer="adam", metrics=["accuracy"])
 model.fit(X, y, batch_size=32, epochs=5, validation_split=0.1)
+
+while True:
+    image_path = input("Enter the path to an image of a man or woman.\n")
+    
+    if os.path.isfile(image_path):
+        break
+    
+image_array = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+image_array = cv2.resize(image_array, (IMAGE_SIZE, IMAGE_SIZE))
+
+prediction = model.predict([image_array.reshape(-1, IMAGE_SIZE, IMAGE_SIZE, 1)])
+print(f"The person in the image you provided is a {GENDERS[int(prediction[0][0])]}.")
