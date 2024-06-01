@@ -4,6 +4,7 @@ from random import shuffle
 import numpy
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, Activation, MaxPooling2D, Flatten, Dense
+import pickle
 
 DATA_DIRECTORY = "dataset/Training"
 GENDERS = ["male", "female"]
@@ -33,7 +34,7 @@ y = numpy.array(y)
 
 X = X / 255
 
-model = Sequential([
+'''model = Sequential([
     Conv2D(64, (3,3), input_shape=X.shape[1:], activation="relu"),
     MaxPooling2D(pool_size=(2,2)),
 
@@ -48,6 +49,12 @@ model = Sequential([
 
 model.compile(loss="binary_crossentropy", optimizer="adam", metrics=["accuracy"])
 model.fit(X, y, batch_size=32, epochs=5, validation_split=0.1)
+
+with open("model.pickle", "wb") as file:
+    pickle.dump(model, file)'''
+
+saved_model = open("model.pickle", "rb")
+model = pickle.load(saved_model)
 
 while True:
     image_path = input("Enter the path to an image of a man or woman.\n")
